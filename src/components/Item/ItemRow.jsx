@@ -18,7 +18,7 @@ function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, data
     return (
         <TableRow onMouseOver={handleOnMouseEnter} hover>
             <TableCell>
-                <Avatar src={image}></Avatar>
+                <Avatar src={`${process.env.PUBLIC_URL}${image}`}></Avatar>
             </TableCell>
             <TableCell>{name}</TableCell>
             <TableCell>{type}</TableCell>

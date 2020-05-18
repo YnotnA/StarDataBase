@@ -30,7 +30,7 @@ function Credit({value, previousValue = null}) {
 
     return (
         <Box className={classes.moneyFont} display="flex" alignItems="center" justifyContent="flex-end">
-            {value}<img className={classes.moneyImage} src="/img/money.png" alt="Credit"/>{trendingIcon()}
+            {value}<img className={classes.moneyImage} src={`${process.env.PUBLIC_URL}/img/money.png`} alt="Credit"/>{trendingIcon()}
         </Box>
     )
 }
