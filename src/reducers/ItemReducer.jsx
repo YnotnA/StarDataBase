@@ -3,7 +3,8 @@ import {
     FETCH_ITEMS_REQUEST,
     FETCH_ITEMS_SUCCESS,
     SEARCH_ITEM,
-    SELECT_ITEM
+    SELECT_ITEM,
+    ORDER_ITEM_SUCCESS
 } from "../actions/ItemTypes";
 
 const ItemReducer = (state = {items: [], loading: false}, action) => {
@@ -34,6 +35,12 @@ const ItemReducer = (state = {items: [], loading: false}, action) => {
             return {
                 ...state,
                 selectItem: action.payload
+            }
+        case ORDER_ITEM_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                items: action.payload,
             }
         default:
             return state;

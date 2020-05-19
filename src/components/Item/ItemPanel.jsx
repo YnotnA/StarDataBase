@@ -14,7 +14,7 @@ function ItemPanel({item}) {
             {item ?
                 <>
                     <ItemInfo name={item.name} description={item.description}/> 
-                    <ItemChart dataChartPrice={item.dataChartPrice}/>      
+                    <ItemChart dataChartPrice={item.dataChartPrice}/>
                 </>
             : null}
         </>

@@ -3,8 +3,11 @@ import {
     FETCH_ITEMS_REQUEST,
     FETCH_ITEMS_SUCCESS,
     SEARCH_ITEM,
-    SELECT_ITEM
+    SELECT_ITEM,
+    ORDER_ITEM_SUCCESS
 } from "./ItemTypes";
+import items from "../itemsData";
+import moment from 'moment';
 
 const fetchItemsRequest = () => {
     return {
@@ -18,6 +21,13 @@ const fetchItemsSuccess = items => {
         payload: items
     }
 };
+
+const orderItemsSuccess = items =>{
+    return {
+        type: ORDER_ITEM_SUCCESS,
+        payload: items
+    }
+}
 
 export const searchItem = search => {
     return  {
@@ -33,6 +43,12 @@ export const selectItem = selectId => {
     }
 }
 
+export const orderItem = (order, orderBy) => {
+    return (dispatch) => {
+        dispatch(fetchItemsRequest);
+    }
+}
+
 /*const fetchItemsFailure = error => {
     return {
         type: FETCH_ITEMS_FAILURE,
@@ -40,85 +56,10 @@ export const selectItem = selectId => {
     }
 };*/
 
-
 export const fetchItems = () => {
     return (dispatch) => {
         dispatch(fetchItemsRequest);
 
-        const items = [
-            {
-                id: '1',
-                name: 'Ajatite ore',
-                description: 'Potentially holds goodies.',
-                image: '/img/ajatite_ore.png',
-                rank: 'worthless',
-                type: 'ore',
-                prices: [],
-                updatedAt: '2012-04-28T18:25:43.511Z'
-            },
-            {
-                id: '2',
-                name: 'Ajatite',
-                description: 'Potentially holds goodies.',
-                image: '/img/ajatite.png',
-                rank: 'worthless',
-                type: 'refined ore',
-                prices: [
-                    {
-                        price: 0.77,
-                        date: "2020-05-15T18:25:43.511Z"
-                    }
-                ],
-                updatedAt: '2020-05-15'
-            },
-            {
-                id: '3',
-                name: 'Bastium',
-                description: 'Brown as dirt and just about as common.',
-                image: '/img/bastium.png',
-                rank: 'low',
-                type: 'refined ore',
-                prices: [
-                    {
-                        price: 6,
-                        date: "2020-05-15T18:25:43.511Z"
-                    },
-                    {
-                        price: 10,
-                        date: "2020-05-17T18:25:43.511Z"
-                    }
-                    ,
-                    {
-                        price: 12,
-                        date: "2020-05-17T20:25:43.511Z"
-                    }
-                ],
-                updatedAt: '2020-05-16T18:25:43.511Z'
-            },
-            {
-                id: '4',
-                name: 'Arkanium',
-                description: 'Dark emerald green ore like that of a vipers ichor.',
-                image: '/img/arkanium.png',
-                rank: 'rare',
-                type: 'refined ore',
-                prices: [
-                    {
-                        price: 100,
-                        date: "2020-05-15T18:25:43.511Z"
-                    },
-                    {
-                        price: 130,
-                        date: "2020-05-16T17:25:43.511Z"
-                    },
-                    {
-                        price: 160,
-                        date: "2020-05-17T18:25:43.511Z"
-                    }
-                ],
-                updatedAt: '2020-05-16T18:25:43.511Z'
-            }
-        ];
 
         items.map(item => {
             item.prices.sort((a, b) => {
@@ -129,23 +70,12 @@ export const fetchItems = () => {
             let currentPrice = (item.prices[item.prices.length - 1] !== undefined) ? item.prices[item.prices.length - 1].price : 0;
             item['currentPrice'] = currentPrice
             item['previousPrice'] = (item.prices[item.prices.length - 2] !== undefined) ? item.prices[item.prices.length - 2].price : null;
-            item['dataChartPrice'] = [{
-                "id": item.name,
-                "color": "#467fcf",
+            item['dataChartPrice'] = {
+                "name": item.name,
                 "data": Object.keys(item.prices).map(function(name){
-                    return {
-                        x: new Date(item.prices[name]['date']),
-                        y: item.prices[name]['price']
-                    };
-                })   
-                
-                /*[...Object.keys(item.prices).map(function(name){
-                    return {
-                        x: new Date(item.prices[name]['date']),
-                        y: item.prices[name]['price']
-                    };
-                }), {x: new Date(), y: currentPrice}]  */
-            }]
+                    return [moment(item.prices[name]['date']).valueOf(), item.prices[name]['price']];
+                })
+            }
             
             return item;          
         });

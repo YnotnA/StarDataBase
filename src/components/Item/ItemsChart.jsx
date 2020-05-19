@@ -1,79 +1,78 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { 
-    Grid,
-    Paper 
-}  from '@material-ui/core';
-import { ResponsiveLine } from '@nivo/line';
+import moment from 'moment';
+import Chart from "react-apexcharts";
+import fr from "apexcharts/dist/locales/fr.json"
 
 function ItemsChart() {
     const items = useSelector(state => state.items.items)
-    const [data, setData] = useState(items)
+    const [series, setSeries] = useState([])
 
     useEffect(() => {
-        if (items) {
+        if (items.length > 0) {
             const clone = require('rfdc')()
             const newItems = clone(items)
-            let combinedDataChartPrices = []
+            let combinedSerie = []
 
             newItems.map(item => {
-                item.dataChartPrice[0].data = [...item.dataChartPrice[0].data, {x: new Date(), y: item.currentPrice}]
-                combinedDataChartPrices = [...combinedDataChartPrices, ...item.dataChartPrice]
+                item.dataChartPrice.data = [...item.dataChartPrice.data, [moment().valueOf(), item.currentPrice]]
+                combinedSerie = [...combinedSerie, item.dataChartPrice]
             })
 
-            setData(combinedDataChartPrices)
+            setSeries(combinedSerie)
         }
     }, [items])
 
+    const optionsChart = {
+        chart: {
+                id: 'chart',
+                locales: [fr],
+                defaultLocale: 'fr',
+            }, 
+            xaxis: {type: 'datetime'},
+            stroke: {curve: 'smooth', width: 2},
+            zoom: {enabled: true},
+            markers: {size: 5},
+    }
+
+    const optionsBrush = {
+        chart: {
+                locales: [fr],
+                defaultLocale: 'fr',
+                selection: {
+                    enabled: true,
+                    xaxis: {
+                        min: moment().subtract(2, 'days').valueOf(),
+                        max: moment().valueOf()
+                    }
+                },
+                brush:{
+                    target: 'chart',
+                    enabled: true
+                },
+            }, 
+            xaxis: {type: 'datetime', tooltip: {enabled: false}},
+            yaxis: {tickAmount: 2},
+            stroke: {curve: 'smooth'},
+            legend: {show: false},
+    }
+
     return (
         <>
-            {data.length > 1 ? 
-                <Grid item>
-                    <Paper variant="outlined" style={{height:300}}>
-                        <ResponsiveLine
-                            data={data}
-                            margin={{ top: 45, right: 5, bottom: 30, left: 50 }}
-                            useMesh={true}
-                            lineWidth={3}
-                            xScale={{
-                                type: 'time',
-                                precision: 'hour',
-                              }}
-                            axisBottom= {{
-                                format: '%b %d',
-                              }}
-                            enableSlices="x"
-                            pointSize={12}
-                            legends={[
-                                {
-                                    anchor: 'top-left',
-                                    direction: 'row',
-                                    justify: false,
-                                    translateX: 0,
-                                    translateY: -32,
-                                    itemsSpacing: 0,
-                                    itemDirection: 'left-to-right',
-                                    itemWidth: 80,
-                                    itemHeight: 20,
-                                    itemOpacity: 0.75,
-                                    symbolSize: 13,
-                                    symbolShape: 'circle',
-                                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                                    effects: [
-                                        {
-                                            on: 'hover',
-                                            style: {
-                                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                                itemOpacity: 1
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]}
-                        />
-                    </Paper>
-                </Grid>
-            : null}
+            <Chart
+                options={optionsChart}
+                height="300"
+                series={series}
+                type="line"
+                width="100%"
+            />
+            <Chart
+                options={optionsBrush}
+                height="100"
+                series={series}
+                type="line"
+                width="100%"
+            />
         </>
     )
 }

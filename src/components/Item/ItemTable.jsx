@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 function ItemTable() {
+    const classes = useStyles();
     const items = useSelector(state => state.items.items);
     const search = useSelector(state => state.items.search);
     const [filteredItems, setFilteredItems] = useState(items);
-    const classes = useStyles();
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
 
@@ -81,6 +81,7 @@ function ItemTable() {
           if (order !== 0) return order;
           return a[1] - b[1];
         });
+
         return stabilizedThis.map((el) => el[0]);
     }
 
@@ -100,7 +101,6 @@ function ItemTable() {
         return 0;
     }
 
-
     function EnhancedTableHead(props) {
         const { classes, order, orderBy, onRequestSort } = props;
         const createSortHandler = (property) => (event) => {
@@ -108,31 +108,31 @@ function ItemTable() {
         };
       
         return (
-          <TableHead>
-            <TableRow>
-              {headCells.map((headCell) => (
-                <TableCell
-                  key={headCell.id}
-                  align={headCell.numeric ? 'right' : 'left'}
-                  padding={headCell.disablePadding ? 'none' : 'default'}
-                  sortDirection={orderBy === headCell.id ? order : false}
-                >
-                    <TableSortLabel
-                        active={orderBy === headCell.id}
-                        direction={orderBy === headCell.id ? order : 'asc'}
-                        onClick={createSortHandler(headCell.id)}
+            <TableHead>
+                <TableRow>
+                {headCells.map((headCell) => (
+                    <TableCell
+                    key={headCell.id}
+                    align={headCell.numeric ? 'right' : 'left'}
+                    padding={headCell.disablePadding ? 'none' : 'default'}
+                    sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        {headCell.label}
-                        {orderBy === headCell.id ? (
-                            <span className={classes.visuallyHidden}>
-                                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                            </span>
-                        ) : null}
-                    </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+                        <TableSortLabel
+                            active={orderBy === headCell.id}
+                            direction={orderBy === headCell.id ? order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}
+                        >
+                            {headCell.label}
+                            {orderBy === headCell.id ? (
+                                <span className={classes.visuallyHidden}>
+                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                </span>
+                            ) : null}
+                        </TableSortLabel>
+                    </TableCell>
+                ))}
+                </TableRow>
+            </TableHead>
         );
     }
 
@@ -159,7 +159,7 @@ function ItemTable() {
                             image={item.image}
                             currentPrice={item.currentPrice}
                             previousPrice={item.previousPrice}
-                            dataChartPrice={item.dataChartPrice}
+                            prices={item.prices}
                             updatedAt={item.updatedAt}
                         />
                     ) : null} 

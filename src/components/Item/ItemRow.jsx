@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { selectItem } from '../../actions/ItemActions';
 import { useDispatch } from "react-redux";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
-import { Line } from '@nivo/line';
 import Credit from '../Credit/Credit';
+import { LineChart, Line, YAxis } from 'recharts';
 
-function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, dataChartPrice, updatedAt}) {
+function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, prices, updatedAt}) {
 
     const dispatch = useDispatch();
     
@@ -24,22 +24,11 @@ function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, data
             <TableCell>{type}</TableCell>
             <TableCell>{rank}</TableCell>
             <TableCell>
-                {dataChartPrice[0].data.length > 1 ?            
-                    <Line
-                        data={dataChartPrice}
-                        width={100}
-                        height={30}
-                        colors={"#ff3333"}
-                        curve="cardinal"
-                        lineWidth={1}
-                        enableGridX={false}
-                        enableGridY={false}
-                        axisBottom={null}
-                        axisLeft={null}
-                        enablePoints={false}
-                        yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                        margin={{ top: 2, right: 2, bottom: 2, left: 2 }}
-                    />
+                {prices.length > 1 ?
+                    <LineChart width={100} height={30} data={prices}>
+                        <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} />
+                        <YAxis type="number" hide={true} domain={['auto', 'auto']} />
+                    </LineChart>
                 : null }
             </TableCell>
             <TableCell align="right"><Credit value={currentPrice} previousValue={previousPrice}/></TableCell>
