@@ -14,7 +14,7 @@ function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, pric
     function handleOnMouseEnter() {
         dispatch(selectItem(id));
     }
-    
+
     return (
         <TableRow onMouseOver={handleOnMouseEnter} hover>
             <TableCell>
@@ -26,7 +26,7 @@ function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, pric
             <TableCell>
                 {prices.length > 1 ?
                     <LineChart width={100} height={30} data={prices}>
-                        <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} />
+                        <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
                         <YAxis type="number" hide={true} domain={['auto', 'auto']} />
                     </LineChart>
                 : null }

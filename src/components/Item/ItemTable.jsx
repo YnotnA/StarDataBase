@@ -44,7 +44,7 @@ function ItemTable() {
     const [orderBy, setOrderBy] = useState('calories');
 
     useEffect(() => {
-        if (items) {
+        if (items.length > 0) {
             if (search) {
                 const lowercasedFilter = search.toLowerCase();
                 const itemFilters = items.filter(item => {

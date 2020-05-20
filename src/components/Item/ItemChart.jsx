@@ -11,12 +11,18 @@ function ItemChart({dataChartPrice}) {
         chart: {
             toolbar: {show: false},
             zoom: {enabled: false},
-            parentHeightOffset: 15
+            animations: {enabled: false}
+        },
+        grid: {
+            padding: {
+              right: 30,
+              left: 20
+            }
         },
         xaxis: {type: 'datetime', labels: {show: false}},
         yaxis: {labels: {show: false}},
-        markers: {size: 5},
-        stroke: {width: 2},
+        stroke: {width: 5},
+        markers: {size: 0},
     }
 
     return (
@@ -26,7 +32,7 @@ function ItemChart({dataChartPrice}) {
                     <Paper variant="outlined">
                         <Chart
                             options={optionsChart}
-                            height="150"
+                            height="200"
                             series={[dataChartPrice]}
                             type="area"
                             width="100%"

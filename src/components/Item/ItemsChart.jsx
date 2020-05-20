@@ -17,6 +17,7 @@ function ItemsChart() {
             newItems.map(item => {
                 item.dataChartPrice.data = [...item.dataChartPrice.data, [moment().valueOf(), item.currentPrice]]
                 combinedSerie = [...combinedSerie, item.dataChartPrice]
+                return item
             })
 
             setSeries(combinedSerie)
@@ -25,14 +26,16 @@ function ItemsChart() {
 
     const optionsChart = {
         chart: {
-                id: 'chart',
-                locales: [fr],
-                defaultLocale: 'fr',
-            }, 
-            xaxis: {type: 'datetime'},
-            stroke: {curve: 'smooth', width: 2},
-            zoom: {enabled: true},
-            markers: {size: 5},
+            id: 'chart',
+            locales: [fr],
+            defaultLocale: 'fr',
+            animations: {enabled: false}
+        }, 
+        xaxis: {type: 'datetime'},
+        stroke: {curve: 'smooth', width: 2},
+        zoom: {enabled: true},
+        markers: {size: 0},
+        dataLabels: {enabled: false},
     }
 
     const optionsBrush = {
@@ -50,11 +53,14 @@ function ItemsChart() {
                     target: 'chart',
                     enabled: true
                 },
+                animations: {enabled: false}
             }, 
             xaxis: {type: 'datetime', tooltip: {enabled: false}},
             yaxis: {tickAmount: 2},
             stroke: {curve: 'smooth'},
             legend: {show: false},
+            markers: {size: 0},
+            dataLabels: {enabled: false},
     }
 
     return (
