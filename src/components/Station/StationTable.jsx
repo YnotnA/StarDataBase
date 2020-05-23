@@ -4,39 +4,35 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import EnhancedTableHead from '../EnhancedTableHead';
+import EnhancedTableHead from '../Table/EnhancedTableHead';
 import StationRow from './StationRow';
-
 
 function StationTable({ stations, headCells }) {
 
     const search = useSelector(state => state.stations.search);
     const [filteredStations, setFilteredStations] = useState(stations);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
+    const [orderBy, setOrderBy] = useState('name');
 
     useEffect(() => {
-        if (stations.length > 0) {
-            if (search) {
-                const lowercasedFilter = search.toLowerCase();
-                const stationFilters = stations.filter(station => {
-                    return Object.keys(station).some(key => {
-                        if (typeof(station[key]) === "string") {
-                            return station[key].toLowerCase().includes(lowercasedFilter);
-                        } else if (typeof(station[key]) === "number") {
-                            return station[key] === Number(search);
-                        }
-                        return false;
+        if (stations.length > 0 && search) {
+            const lowercasedFilter = search.toLowerCase();
+            const stationFilters = stations.filter(station => {
+                return Object.keys(station).some(key => {
+                    if (typeof(station[key]) === "string") {
+                        return station[key].toLowerCase().includes(lowercasedFilter);
+                    } else if (typeof(station[key]) === "number") {
+                        return station[key] === Number(search);
                     }
-                       
-                    );
-                });
-
-                setFilteredStations(stationFilters);
-            } else {
-                setFilteredStations(stations);   
-            }   
-        }   
+                    return false;
+                }
+                    
+                );
+            });
+            setFilteredStations(stationFilters);
+        } else {
+            setFilteredStations(stations);   
+        }
     }, [stations, search])
 
     const handleRequestSort = (event, property) => {

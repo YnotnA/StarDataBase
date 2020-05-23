@@ -3,7 +3,7 @@ import Axios from "axios";
 export const FETCH_STATIONS_REQUEST = 'FETCH_STATIONS_REQUEST';
 export const FETCH_STATIONS_SUCCESS = 'FETCH_STATIONS_SUCCESS';
 export const FETCH_STATIONS_FAILURE = 'FETCH_STATIONS_FAILURE';
-
+export const SEARCH_STATION = 'SEARCH_STATION';
 
 const fetchStationsRequest = () => {
     return {
@@ -22,6 +22,13 @@ const fetchStationsFailure = error => {
     return {
         type: FETCH_STATIONS_FAILURE,
         payload: error
+    }
+};
+
+export const searchStation = search => {
+    return  {
+        type: SEARCH_STATION,
+        payload: search
     }
 };
 

@@ -13,7 +13,7 @@ function ItemTable({ headCells }) {
     const items = useSelector(state => state.items.items);
     const [filteredItems, setFilteredItems] = useState(items);
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
+    const [orderBy, setOrderBy] = useState('name');
 
     useEffect(() => {
         if (items.length > 0 && search) {

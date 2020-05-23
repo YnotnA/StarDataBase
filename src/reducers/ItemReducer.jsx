@@ -6,7 +6,7 @@ import {
     SELECT_ITEM,
 } from "../actions/ItemActions";
 
-const ItemReducer = (state = {items: [], loading: false}, action) => {
+const ItemReducer = (state = {items: [], loading: false, search: null}, action) => {
     switch (action.type) {
         case FETCH_ITEMS_REQUEST:
             return {

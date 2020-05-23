@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Grid }  from '@material-ui/core';
 import { fetchStations } from '../../actions/stationActions';
-import StationTable from '../Table/Station/StationTable';
 import StationPanel from './StationPanel';
+import StationTable from './StationTable';
 
 const headCells = [
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
