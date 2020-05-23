@@ -26,8 +26,8 @@ function ItemStationRow({ item }) {
                 <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
             </TableCell>
             <TableCell>{item.name}</TableCell>
+            <TableCell>{item.type.subCategory.name}</TableCell>
             <TableCell>{item.type.name}</TableCell>
-            <TableCell>{item.rank}</TableCell>
             <TableCell>
                 {item.prices !== undefined && item.prices.length > 1 ?
                     <LineChart width={100} height={30} data={item.prices}>

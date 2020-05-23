@@ -10,10 +10,10 @@ import ItemStationTable from './ItemStationTable';
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+    { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'rank', numeric: false, disablePadding: false, label: 'Rank' },
     { id: 'priceevo', numeric: false, disablePadding: false, label: 'Price Evolution' },
-    { id: 'currentPrice', numeric: true, disablePadding: false, label: 'Price' },
+    { id: 'currentSellingPrice', numeric: true, disablePadding: false, label: 'Price' },
   ];
 
 function ItemStationPage() {

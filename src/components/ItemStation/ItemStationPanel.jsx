@@ -20,7 +20,7 @@ function ItemStationPanel({item}) {
             </Grid>
             {item ?
                 <>
-                    <ItemInfo name={item.name} description={item.description}/> 
+                    <ItemInfo item={item}/> 
                     {item.dataChartPrice !== undefined ?
                         <ItemChart dataChartPrice={item.dataChartPrice}/>
                     : null}

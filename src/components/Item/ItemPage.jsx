@@ -8,6 +8,8 @@ import ItemTable from './ItemTable';
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+    { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
+    { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
     { id: 'rank', numeric: false, disablePadding: false, label: 'Rank' },
   ];

@@ -19,7 +19,7 @@ function ItemPanel({item}) {
             </Grid>
             {item ?
                 <>
-                    <ItemInfo name={item.name} description={item.description}/> 
+                    <ItemInfo item={item}/> 
                 </>
             : null}
         </>

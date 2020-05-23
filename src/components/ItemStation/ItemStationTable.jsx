@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import EnhancedTableHead from '../Table/EnhancedTableHead';
 import ItemStationRow from './ItemStationRow';
+import { Typography } from '@material-ui/core';
 
 
 function ItemStationTable({ headCells }) {
@@ -72,27 +73,31 @@ function ItemStationTable({ headCells }) {
     }
 
     return (
-        <TableContainer component={Paper} variant="outlined">
-            <Table>
-                <EnhancedTableHead
-                    headCells={headCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                    rowCount={filteredItems.length}
-                />
-                <TableBody>
-                    {filteredItems ? 
-                    stableSort(filteredItems, getComparator(order, orderBy))
-                    .map(item =>
-                        <ItemStationRow
-                            key={item.id}
-                            item={item}
+        <>
+            {filteredItems.length > 0 ? 
+                <TableContainer component={Paper} variant="outlined">
+                    <Table>
+                        <EnhancedTableHead
+                            headCells={headCells}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                            rowCount={filteredItems.length}
                         />
-                    ) : null} 
-                </TableBody>  
-            </Table>
-        </TableContainer> 
+                        <TableBody>
+                            {filteredItems ? 
+                            stableSort(filteredItems, getComparator(order, orderBy))
+                            .map(item =>
+                                <ItemStationRow
+                                    key={item.id}
+                                    item={item}
+                                />
+                            ) : null} 
+                        </TableBody>  
+                    </Table>
+                </TableContainer> 
+            : <Typography variant="h5">No items</Typography> }
+        </>
     )
 }
 

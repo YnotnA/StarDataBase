@@ -5,17 +5,19 @@ import {
     CardContent,
     Typography,
 }  from '@material-ui/core';
+import ItemBreadcrumbs from '../Breadcrumbs/ItemBreadcrumbs';
 
-function ItemInfo({name, description}) {
+function ItemInfo({item}) {
     return (
         <Grid item>
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h4" gutterBottom>
-                        {name}
+                    <Typography variant="h4">
+                        {item.name}
                     </Typography>
+                    <ItemBreadcrumbs item={item}/>
                     <Typography variant="body1">
-                        {description}
+                        {item.description}
                     </Typography>
                 </CardContent>
             </Card>

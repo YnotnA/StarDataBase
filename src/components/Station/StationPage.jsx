@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Grid }  from '@material-ui/core';
 import { fetchStations } from '../../actions/stationActions';
@@ -13,7 +13,6 @@ const headCells = [
 function StationPage() {
     const dispatch = useDispatch();
     const stations = useSelector(state => state.stations.stations);
-    const [selectItem, setSelectItem] = useState();
     
     useEffect(() => {
         dispatch(fetchStations());
@@ -26,7 +25,7 @@ function StationPage() {
                     <StationTable stations={stations} headCells={headCells}/>
                 </Grid>
                 <Grid container direction={'column'} spacing={3} item md={4} xs={12}>
-                    <StationPanel item={selectItem}/>
+                    <StationPanel/>
                 </Grid>   
             </Grid>
         </>

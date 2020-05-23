@@ -18,6 +18,8 @@ function ItemRow({ item }) {
                 <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
             </TableCell>
             <TableCell>{item.name}</TableCell>
+            <TableCell>{item.type.subCategory.category.name}</TableCell>
+            <TableCell>{item.type.subCategory.name}</TableCell>
             <TableCell>{item.type.name}</TableCell>
             <TableCell>{item.rank}</TableCell>
         </TableRow>
