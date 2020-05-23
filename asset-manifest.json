@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/StarDataBase/static/js/main.49eb202b.chunk.js",
-    "main.js.map": "/StarDataBase/static/js/main.49eb202b.chunk.js.map",
+    "main.js": "/StarDataBase/static/js/main.3e09d2f2.chunk.js",
+    "main.js.map": "/StarDataBase/static/js/main.3e09d2f2.chunk.js.map",
     "runtime-main.js": "/StarDataBase/static/js/runtime-main.a3c68fef.js",
     "runtime-main.js.map": "/StarDataBase/static/js/runtime-main.a3c68fef.js.map",
-    "static/js/2.4f65883d.chunk.js": "/StarDataBase/static/js/2.4f65883d.chunk.js",
-    "static/js/2.4f65883d.chunk.js.map": "/StarDataBase/static/js/2.4f65883d.chunk.js.map",
+    "static/js/2.e18cca72.chunk.js": "/StarDataBase/static/js/2.e18cca72.chunk.js",
+    "static/js/2.e18cca72.chunk.js.map": "/StarDataBase/static/js/2.e18cca72.chunk.js.map",
     "index.html": "/StarDataBase/index.html",
-    "precache-manifest.3bf6e9bbaf879a71be05490df3b807a7.js": "/StarDataBase/precache-manifest.3bf6e9bbaf879a71be05490df3b807a7.js",
+    "precache-manifest.4d8b5b4eee6aba25d327c08b34b61ea6.js": "/StarDataBase/precache-manifest.4d8b5b4eee6aba25d327c08b34b61ea6.js",
     "service-worker.js": "/StarDataBase/service-worker.js",
-    "static/js/2.4f65883d.chunk.js.LICENSE.txt": "/StarDataBase/static/js/2.4f65883d.chunk.js.LICENSE.txt"
+    "static/js/2.e18cca72.chunk.js.LICENSE.txt": "/StarDataBase/static/js/2.e18cca72.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a3c68fef.js",
-    "static/js/2.4f65883d.chunk.js",
-    "static/js/main.49eb202b.chunk.js"
+    "static/js/2.e18cca72.chunk.js",
+    "static/js/main.3e09d2f2.chunk.js"
   ]
 }
