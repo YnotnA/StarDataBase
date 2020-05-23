@@ -3,11 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { TrendingDown, TrendingUp, TrendingFlat } from '@material-ui/icons';
 import { red, green } from '@material-ui/core/colors';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    moneyFont: {
-        fontSize: 20
-    },
     moneyImage: {
         width: 20
     }
@@ -32,9 +30,12 @@ function Credit({value, previousValue = null}) {
         <Box className={classes.moneyFont} display="flex" alignItems="center" justifyContent="flex-end">
             {value !== undefined ?
                 <>
-                    {value}<img className={classes.moneyImage} src={`${process.env.PUBLIC_URL}/img/money.png`} alt="Credit"/>{trendingIcon()}
+                <Typography variant="h6">
+                    {value}
+                </Typography>
+                    <img className={classes.moneyImage} src={`${process.env.PUBLIC_URL}/img/money.png`} alt="Credit"/>{trendingIcon()}
                 </>
-            : 'N/A' }
+            : <Typography variant="h6">N/A</Typography>}
         </Box>
     )
 }

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Grid }  from '@material-ui/core';
-import ItemPanel from './ItemPanel';
-import { fetchItems } from '../../actions/ItemActions';
+import { fetchItems, searchItem } from '../../actions/ItemActions';
 import ItemTable from './ItemTable';
+import SearchForm from '../Search/SearchForm';
 
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
@@ -12,25 +12,29 @@ const headCells = [
     { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
     { id: 'rank', numeric: false, disablePadding: false, label: 'Rank' },
+    { id: 'action', numeric: false, disablePadding: false, label: '' },
   ];
 
 function ItemPage() {
     const dispatch = useDispatch();
-    const selectItem = useSelector(state => state.items.selectItem);
     
     useEffect(() => {
         dispatch(fetchItems());
     }, [])
 
+    const searchHandler = (event) => {
+        dispatch(searchItem(event.target.value));
+    }
+
     return (
         <>
             <Grid container spacing={3}>
-                <Grid item md={8} xs={12}>
+                <Grid item>
+                    <SearchForm searchHandler={searchHandler}/>
+                </Grid>
+                <Grid item xs={12}>
                     <ItemTable headCells={headCells}/>
                 </Grid>
-                <Grid container direction={'column'} spacing={3} item md={4} xs={12}>
-                    <ItemPanel item={selectItem}/>
-                </Grid>   
             </Grid>
         </>
     )

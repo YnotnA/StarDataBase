@@ -1,27 +1,39 @@
 import React from 'react';
 import { 
-    Grid,
-    Card,
-    CardContent,
     Typography,
+    makeStyles,
+    Avatar,
+    Box,
 }  from '@material-ui/core';
 import ItemBreadcrumbs from '../Breadcrumbs/ItemBreadcrumbs';
 
+const useStyles = makeStyles((theme) => ({
+    section1: {
+        margin: theme.spacing(2),
+      },
+    avatar: {
+        width: theme.spacing(15),
+        height: theme.spacing(15),
+        margin: theme.spacing(1)
+    },
+}));
+
 function ItemInfo({item}) {
+    const classes = useStyles();
+    
     return (
-        <Grid item>
-            <Card variant="outlined">
-                <CardContent>
-                    <Typography variant="h4">
-                        {item.name}
-                    </Typography>
-                    <ItemBreadcrumbs item={item}/>
-                    <Typography variant="body1">
-                        {item.description}
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Grid>
+        <div className={classes.section1}>
+            <Box display="flex" justifyContent="center">
+                <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath} className={classes.avatar}></Avatar>
+            </Box>
+            <Typography variant="h4">
+                {item.name}
+            </Typography>
+            <ItemBreadcrumbs item={item}/>
+            <Typography gutterBottom color="textSecondary" variant="body2">
+                {item.description}
+            </Typography>
+        </div>
     )
 }
 

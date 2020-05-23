@@ -72,7 +72,7 @@ function ItemTable({ headCells }) {
 
     return (
         <TableContainer component={Paper} variant="outlined">
-            <Table>
+            <Table size="small">
                 <EnhancedTableHead
                     headCells={headCells}
                     order={order}

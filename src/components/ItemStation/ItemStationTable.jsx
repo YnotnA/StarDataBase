@@ -76,7 +76,7 @@ function ItemStationTable({ headCells }) {
         <>
             {filteredItems.length > 0 ? 
                 <TableContainer component={Paper} variant="outlined">
-                    <Table>
+                    <Table size="small">
                         <EnhancedTableHead
                             headCells={headCells}
                             order={order}

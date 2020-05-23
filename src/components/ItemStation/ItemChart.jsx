@@ -1,9 +1,6 @@
 import React from 'react';
-import { 
-    Grid,
-    Paper 
-}  from '@material-ui/core';
 import Chart from "react-apexcharts";
+import fr from "apexcharts/dist/locales/fr.json"
 
 function ItemChart({dataChartPrice = []}) {
 
@@ -11,7 +8,9 @@ function ItemChart({dataChartPrice = []}) {
         chart: {
             toolbar: {show: false},
             zoom: {enabled: false},
-            animations: {enabled: false}
+            animations: {enabled: false},
+            locales: [fr],
+            defaultLocale: 'fr'
         },
         grid: {
             padding: {
@@ -27,18 +26,14 @@ function ItemChart({dataChartPrice = []}) {
 
     return (
         <>
-            {dataChartPrice.data.length > 1 ? 
-                <Grid item>
-                    <Paper variant="outlined">
-                        <Chart
-                            options={optionsChart}
-                            height="200"
-                            series={[dataChartPrice]}
-                            type="area"
-                            width="100%"
-                        />
-                    </Paper>
-                </Grid>
+            {dataChartPrice.data.length > 1 ?
+                <Chart
+                    options={optionsChart}
+                    height="200"
+                    series={[dataChartPrice]}
+                    type="area"
+                    width="100%"
+                />
             : null}  
         </>
     )

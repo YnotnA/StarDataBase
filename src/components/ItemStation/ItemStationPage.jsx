@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Typography }  from '@material-ui/core';
-import ItemPanel from './ItemStationPanel';
 import ItemStationCharts from './ItemStationCharts';
 import { useParams } from 'react-router-dom';
-import { fetchItemsByStation, clearItemsStation } from '../../actions/ItemStationActions';
+import { fetchItemsByStation, clearItemsStation, searchItemStation } from '../../actions/ItemStationActions';
 import ItemStationTable from './ItemStationTable';
+import SearchForm from '../Search/SearchForm';
 
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
     { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'priceevo', numeric: false, disablePadding: false, label: 'Price Evolution' },
-    { id: 'currentSellingPrice', numeric: true, disablePadding: false, label: 'Price' },
+    { id: 'priceevo', numeric: false, disablePadding: false, label: 'Sell Price Evo.' },
+    { id: 'currentSellingPrice', numeric: true, disablePadding: false, label: 'Sell Price' },
+    { id: 'currentBuyingPrice', numeric: true, disablePadding: false, label: 'Buy Price' },
+    { id: 'action', numeric: false, disablePadding: false, label: '' },
   ];
 
 function ItemStationPage() {
@@ -29,6 +31,10 @@ function ItemStationPage() {
         }
     }, [id])
 
+    const searchHandler = (event) => {
+        dispatch(searchItemStation(event.target.value));
+    }
+
     return (
         <>
             <Typography variant="h3">
@@ -40,12 +46,12 @@ function ItemStationPage() {
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
-                <Grid item md={8} xs={12}>
+                <Grid item>
+                    <SearchForm searchHandler={searchHandler}/>
+                </Grid>
+                <Grid item xs={12}>
                     <ItemStationTable headCells={headCells}/>
                 </Grid>
-                <Grid container direction={'column'} spacing={3} item md={4} xs={12}>
-                    <ItemPanel item={selectItem}/>
-                </Grid>   
             </Grid>
         </>
     )
