@@ -1,37 +1,25 @@
 import React from 'react';
-import { selectItem } from '../../actions/ItemActions';
-import { useDispatch } from "react-redux";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
-import Credit from '../Credit/Credit';
-import { LineChart, Line, YAxis } from 'recharts';
+import { useDispatch } from 'react-redux';
+import { selectItem } from '../../actions/ItemActions';
 
-function ItemRow({id, name, rank, image, type, currentPrice, previousPrice, prices, updatedAt}) {
-
+function ItemRow({ item }) {
     const dispatch = useDispatch();
     
     function handleOnMouseEnter() {
-        dispatch(selectItem(id));
+        dispatch(selectItem(item));
     }
-
+    
     return (
         <TableRow onMouseOver={handleOnMouseEnter} hover>
             <TableCell>
-                <Avatar src={`${process.env.PUBLIC_URL}${image}`}></Avatar>
+                <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
             </TableCell>
-            <TableCell>{name}</TableCell>
-            <TableCell>{type}</TableCell>
-            <TableCell>{rank}</TableCell>
-            <TableCell>
-                {prices.length > 1 ?
-                    <LineChart width={100} height={30} data={prices}>
-                        <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
-                        <YAxis type="number" hide={true} domain={['auto', 'auto']} />
-                    </LineChart>
-                : null }
-            </TableCell>
-            <TableCell align="right"><Credit value={currentPrice} previousValue={previousPrice}/></TableCell>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.type.name}</TableCell>
+            <TableCell>{item.rank}</TableCell>
         </TableRow>
     )
 }

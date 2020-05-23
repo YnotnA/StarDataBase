@@ -5,29 +5,30 @@ import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import EnhancedTableHead from '../Table/EnhancedTableHead';
-import ItemRow from './ItemRow';
+import ItemStationRow from './ItemStationRow';
 
-function ItemTable({ headCells }) {
 
-    const search = useSelector(state => state.items.search);
-    const items = useSelector(state => state.items.items);
-    const [filteredItems, setFilteredItems] = useState(items);
+function ItemStationTable({ headCells }) {
+
+    const search = useSelector(state => state.itemsStation.search);
+    const items = useSelector(state => state.itemsStation.station.items);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
 
     useEffect(() => {
         if (items.length > 0 && search) {
+            
             const lowercasedFilter = search.toLowerCase();
             const itemFilters = items.filter(item => {
                 return Object.keys(item).some(key => {
-                    if (typeof(item[key]) === "string") {
-                        return item[key].toLowerCase().includes(lowercasedFilter);
-                    } else if (typeof(item[key]) === "number") {
-                        return item[key] === Number(search);
+                        if (typeof(item[key]) === "string") {
+                            return item[key].toLowerCase().includes(lowercasedFilter);
+                        } else if (typeof(item[key]) === "number") {
+                            return item[key] === Number(search);
+                        }
+                        return false;
                     }
-                    return false;
-                }
-                    
                 );
             });
 
@@ -84,7 +85,7 @@ function ItemTable({ headCells }) {
                     {filteredItems ? 
                     stableSort(filteredItems, getComparator(order, orderBy))
                     .map(item =>
-                        <ItemRow
+                        <ItemStationRow
                             key={item.id}
                             item={item}
                         />
@@ -95,4 +96,4 @@ function ItemTable({ headCells }) {
     )
 }
 
-export default ItemTable;
+export default ItemStationTable;

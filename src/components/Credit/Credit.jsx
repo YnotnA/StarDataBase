@@ -28,9 +28,13 @@ function Credit({value, previousValue = null}) {
         return <TrendingFlat/>       
     }
 
-    return (
+    return ( 
         <Box className={classes.moneyFont} display="flex" alignItems="center" justifyContent="flex-end">
-            {value}<img className={classes.moneyImage} src={`${process.env.PUBLIC_URL}/img/money.png`} alt="Credit"/>{trendingIcon()}
+            {value !== undefined ?
+                <>
+                    {value}<img className={classes.moneyImage} src={`${process.env.PUBLIC_URL}/img/money.png`} alt="Credit"/>{trendingIcon()}
+                </>
+            : 'N/A' }
         </Box>
     )
 }

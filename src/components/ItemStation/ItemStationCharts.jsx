@@ -4,8 +4,8 @@ import moment from 'moment';
 import Chart from "react-apexcharts";
 import fr from "apexcharts/dist/locales/fr.json"
 
-function ItemsChart() {
-    const items = useSelector(state => state.items.items)
+function ItemStationCharts() {
+    const items = useSelector(state => state.itemsStation.station.items)
     const [series, setSeries] = useState([])
 
     useEffect(() => {
@@ -15,12 +15,17 @@ function ItemsChart() {
             let combinedSerie = []
 
             newItems.map(item => {
-                item.dataChartPrice.data = [...item.dataChartPrice.data, [moment().valueOf(), item.currentPrice]]
-                combinedSerie = [...combinedSerie, item.dataChartPrice]
+                if (item.dataChartPrice !== undefined && item.dataChartPrice.data.length > 0)  {
+                    item.dataChartPrice.data = [...item.dataChartPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
+                    combinedSerie = [...combinedSerie, item.dataChartPrice]
+                }
                 return item
             })
 
             setSeries(combinedSerie)
+        }
+        return () => {
+            setSeries([])
         }
     }, [items])
 
@@ -45,7 +50,7 @@ function ItemsChart() {
                 selection: {
                     enabled: true,
                     xaxis: {
-                        min: moment().subtract(2, 'days').valueOf(),
+                        min: moment().subtract(5, 'days').valueOf(),
                         max: moment().valueOf()
                     }
                 },
@@ -65,22 +70,26 @@ function ItemsChart() {
 
     return (
         <>
-            <Chart
-                options={optionsChart}
-                height="300"
-                series={series}
-                type="line"
-                width="100%"
-            />
-            <Chart
-                options={optionsBrush}
-                height="100"
-                series={series}
-                type="line"
-                width="100%"
-            />
+            {series.length > 0 ?
+            <>
+                <Chart
+                    options={optionsChart}
+                    height="300"
+                    series={series}
+                    type="line"
+                    width="100%"
+                />
+                <Chart
+                    options={optionsBrush}
+                    height="100"
+                    series={series}
+                    type="line"
+                    width="100%"
+                />
+                </>
+            : null }
         </>
     )
 }
 
-export default ItemsChart;
+export default ItemStationCharts;

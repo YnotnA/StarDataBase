@@ -4,38 +4,40 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import EnhancedTableHead from '../Table/EnhancedTableHead';
-import ItemRow from './ItemRow';
+import EnhancedTableHead from '../EnhancedTableHead';
+import StationRow from './StationRow';
 
-function ItemTable({ headCells }) {
 
-    const search = useSelector(state => state.items.search);
-    const items = useSelector(state => state.items.items);
-    const [filteredItems, setFilteredItems] = useState(items);
+function StationTable({ stations, headCells }) {
+
+    const search = useSelector(state => state.stations.search);
+    const [filteredStations, setFilteredStations] = useState(stations);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
 
     useEffect(() => {
-        if (items.length > 0 && search) {
-            const lowercasedFilter = search.toLowerCase();
-            const itemFilters = items.filter(item => {
-                return Object.keys(item).some(key => {
-                    if (typeof(item[key]) === "string") {
-                        return item[key].toLowerCase().includes(lowercasedFilter);
-                    } else if (typeof(item[key]) === "number") {
-                        return item[key] === Number(search);
+        if (stations.length > 0) {
+            if (search) {
+                const lowercasedFilter = search.toLowerCase();
+                const stationFilters = stations.filter(station => {
+                    return Object.keys(station).some(key => {
+                        if (typeof(station[key]) === "string") {
+                            return station[key].toLowerCase().includes(lowercasedFilter);
+                        } else if (typeof(station[key]) === "number") {
+                            return station[key] === Number(search);
+                        }
+                        return false;
                     }
-                    return false;
-                }
-                    
-                );
-            });
+                       
+                    );
+                });
 
-            setFilteredItems(itemFilters);
-        } else {
-            setFilteredItems(items);   
-        } 
-    }, [items, search])
+                setFilteredStations(stationFilters);
+            } else {
+                setFilteredStations(stations);   
+            }   
+        }   
+    }, [stations, search])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -78,15 +80,16 @@ function ItemTable({ headCells }) {
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
-                    rowCount={filteredItems.length}
+                    rowCount={filteredStations.length}
                 />
                 <TableBody>
-                    {filteredItems ? 
-                    stableSort(filteredItems, getComparator(order, orderBy))
-                    .map(item =>
-                        <ItemRow
-                            key={item.id}
-                            item={item}
+                    {filteredStations ? 
+                    stableSort(filteredStations, getComparator(order, orderBy))
+                    .map(station =>
+                        <StationRow 
+                            key={station.id}
+                            id={station.id}
+                            name={station.name}
                         />
                     ) : null} 
                 </TableBody>  
@@ -95,4 +98,4 @@ function ItemTable({ headCells }) {
     )
 }
 
-export default ItemTable;
+export default StationTable;

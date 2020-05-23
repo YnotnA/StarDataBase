@@ -5,7 +5,7 @@ import {
 }  from '@material-ui/core';
 import Chart from "react-apexcharts";
 
-function ItemChart({dataChartPrice}) {
+function ItemChart({dataChartPrice = []}) {
 
     const optionsChart = {
         chart: {
