@@ -34,7 +34,11 @@ function ItemStationCharts() {
             id: 'chart',
             locales: [fr],
             defaultLocale: 'fr',
-            animations: {enabled: false}
+            animations: {enabled: false},
+            zoom: {
+                type: "xy",
+                autoScaleYaxis: true,
+            }
         }, 
         xaxis: {type: 'datetime'},
         stroke: {curve: 'smooth', width: 2},
@@ -45,27 +49,27 @@ function ItemStationCharts() {
 
     const optionsBrush = {
         chart: {
-                locales: [fr],
-                defaultLocale: 'fr',
-                selection: {
-                    enabled: true,
-                    xaxis: {
-                        min: moment().subtract(5, 'days').valueOf(),
-                        max: moment().valueOf()
-                    }
-                },
-                brush:{
-                    target: 'chart',
-                    enabled: true
-                },
-                animations: {enabled: false}
-            }, 
-            xaxis: {type: 'datetime', tooltip: {enabled: false}},
-            yaxis: {tickAmount: 2},
-            stroke: {curve: 'smooth'},
-            legend: {show: false},
-            markers: {size: 0},
-            dataLabels: {enabled: false},
+            locales: [fr],
+            defaultLocale: 'fr',
+            selection: {
+                enabled: true,
+                xaxis: {
+                    min: moment().subtract(5, 'days').valueOf(),
+                    max: moment().valueOf()
+                }
+            },
+            brush:{
+                target: 'chart',
+                enabled: true
+            },
+            animations: {enabled: false}
+        }, 
+        xaxis: {type: 'datetime', tooltip: {enabled: false}},
+        yaxis: {tickAmount: 2},
+        stroke: {curve: 'smooth'},
+        legend: {show: false},
+        markers: {size: 0},
+        dataLabels: {enabled: false},
     }
 
     return (

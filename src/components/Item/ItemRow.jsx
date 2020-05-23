@@ -9,9 +9,12 @@ import ItemInfo from './ItemInfo';
 
 const useStyles = makeStyles({
     drawer: {
-      width: 400,
+      width: 250,
+      "@media (min-width: 500px)": {
+        width: 400,
+      }
     }
-  });
+});
 
 function ItemRow({ item }) {
     const classes = useStyles()

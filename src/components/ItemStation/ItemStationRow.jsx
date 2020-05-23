@@ -11,7 +11,10 @@ import ItemInfo from './ItemInfo';
 
 const useStyles = makeStyles({
     drawer: {
-      width: 400,
+      width: 250,
+      "@media (min-width: 500px)": {
+        width: 400,
+      }
     }
 });
 
