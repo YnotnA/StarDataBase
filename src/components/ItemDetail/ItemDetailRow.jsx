@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Avatar from '@material-ui/core/Avatar';
 import Credit from '../Credit/Credit';
 import { LineChart, Line, YAxis } from 'recharts';
-import { fetchItemSellPricesByStation, selectItemStation, fetchItemBuyPricesByStation } from '../../actions/ItemStationActions';
+import { fetchItemSellPricesByStation, selectStationDetail, fetchItemBuyPricesByStation } from '../../actions/ItemDetailActions';
 import { Button, makeStyles, Drawer, Box, Link } from '@material-ui/core';
-import ItemInfo from './ItemInfo';
+import StationInfo from './StationInfo';
 import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -19,10 +18,10 @@ const useStyles = makeStyles({
     }
 });
 
-function ItemStationRow({ item }) {
+function ItemDetailRow({ station }) {
     const classes = useStyles()
     const dispatch = useDispatch();
-    const station = useSelector(state => state.itemsStation.station);
+    const item = useSelector(state => state.itemDetail.item);
     const [drawer, setDrawer] = useState(false)
     
     useEffect(() => {
@@ -34,7 +33,7 @@ function ItemStationRow({ item }) {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
           return;
         }
-        dispatch(selectItemStation(item));
+        dispatch(selectStationDetail(station));
         setDrawer(open);
     };
 
@@ -42,34 +41,29 @@ function ItemStationRow({ item }) {
         <>
             <TableRow hover>
                 <TableCell>
-                    <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
+                    <Link component={RouterLink} to={`/StarDataBase/station/${station.id}/items`} color="inherit">{station.name}</Link>
                 </TableCell>
                 <TableCell>
-                    <Link component={RouterLink} to={`/StarDataBase/item/${item.id}`} color="inherit">{item.name}</Link>      
-                </TableCell>
-                <TableCell>{item.type.subCategory.name}</TableCell>
-                <TableCell>{item.type.name}</TableCell>
-                <TableCell>
-                    {item.sellPrices !== undefined && item.sellPrices.length > 1 ?
-                        <LineChart width={100} height={30} data={item.sellPrices}>
+                    {station.sellPrices !== undefined && station.sellPrices.length > 1 ?
+                        <LineChart width={100} height={30} data={station.sellPrices}>
                             <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
                             <YAxis type="number" hide={true} domain={['auto', 'auto']} />
                         </LineChart>
                     : null}
                 </TableCell>
                 <TableCell align="right">
-                    <Credit value={item.currentSellingPrice} previousValue={item.previousSellingPrice}/>
+                    <Credit value={station.currentSellingPrice} previousValue={station.previousSellingPrice}/>
                 </TableCell>
                 <TableCell>
-                    {item.buyPrices !== undefined && item.buyPrices.length > 1 ?
-                        <LineChart width={100} height={30} data={item.buyPrices}>
+                    {station.buyPrices !== undefined && station.buyPrices.length > 1 ?
+                        <LineChart width={100} height={30} data={station.buyPrices}>
                             <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
                             <YAxis type="number" hide={true} domain={['auto', 'auto']} />
                         </LineChart>
                     : null}
                 </TableCell>
                 <TableCell align="right">
-                    <Credit value={item.currentBuyingPrice} previousValue={item.previousBuyingPrice}/>
+                    <Credit value={station.currentBuyingPrice} previousValue={station.previousBuyingPrice}/>
                 </TableCell>
                 <TableCell align="right">
                     <Button size="small" variant="contained" color="primary" onClick={toggleDrawer(true)}>Show</Button>
@@ -82,11 +76,11 @@ function ItemStationRow({ item }) {
                     onClick={toggleDrawer(false)}
                     onKeyDown={toggleDrawer(false)}
                 >
-                    <ItemInfo item={item}/>
+                    <StationInfo station={station}/>
                 </Box>
             </Drawer>
         </>
     )
 }
 
-export default ItemStationRow;
+export default ItemDetailRow;

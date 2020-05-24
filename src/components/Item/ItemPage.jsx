@@ -11,7 +11,6 @@ const headCells = [
     { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
     { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'rank', numeric: false, disablePadding: false, label: 'Rank' },
     { id: 'action', numeric: false, disablePadding: false, label: '' },
   ];
 
