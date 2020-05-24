@@ -5,18 +5,23 @@ import TableCell from '@material-ui/core/TableCell';
 import Credit from '../Credit/Credit';
 import { LineChart, Line, YAxis } from 'recharts';
 import { fetchItemSellPricesByStation, selectStationDetail, fetchItemBuyPricesByStation } from '../../actions/ItemDetailActions';
-import { Button, makeStyles, Drawer, Box, Link } from '@material-ui/core';
+import { Button, makeStyles, Drawer, Box, Link, ButtonGroup } from '@material-ui/core';
 import StationInfo from './StationInfo';
 import { Link as RouterLink } from 'react-router-dom';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     drawer: {
       width: 250,
       "@media (min-width: 500px)": {
         width: 400,
       }
-    }
-});
+    },
+    button: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+}));
 
 function ItemDetailRow({ station }) {
     const classes = useStyles()
@@ -66,7 +71,10 @@ function ItemDetailRow({ station }) {
                     <Credit value={station.currentBuyingPrice} previousValue={station.previousBuyingPrice}/>
                 </TableCell>
                 <TableCell align="right">
-                    <Button size="small" variant="contained" color="primary" onClick={toggleDrawer(true)}>Show</Button>
+                <ButtonGroup size="small" aria-label="small outlined button group" className={classes.button}>
+                    <Button variant="contained" color="primary" component={RouterLink} to={`/StarDataBase/station/${station.id}/items`}>Go to station</Button>
+                    <Button variant="contained" color="primary" onClick={toggleDrawer(true)}>Show</Button>
+                </ButtonGroup>
                 </TableCell>
             </TableRow>
             <Drawer anchor={"right"} open={drawer} onClose={toggleDrawer(false)}>
