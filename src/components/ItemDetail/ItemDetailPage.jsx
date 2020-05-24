@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Typography, Button, makeStyles, Avatar, Box }  from '@material-ui/core';
+import { Grid, Typography, makeStyles, Avatar, Box }  from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import SearchForm from '../Search/SearchForm';
 import { clearItemDetail, fetchItemDetail, searchItemDetail } from '../../actions/ItemDetailActions';
 import ItemDetailTable from './ItemDetailTable';
-import { Link as RouterLink } from 'react-router-dom';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ItemBreadcrumbs from '../Breadcrumbs/ItemBreadcrumbs';
-import { useHistory } from 'react-router-dom'
+import BackButton from '../Button/BackButton';
+
 
 const headCells = [
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
@@ -31,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ItemDetailPage() {
     let { id } = useParams();
-    const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
     const item = useSelector(state => state.itemDetail.item);
@@ -49,7 +47,7 @@ function ItemDetailPage() {
 
     return (
         <>
-            <Button color="inherit" onClick={() => history.goBack()}><ArrowBackIosIcon/>Back</Button>
+            <BackButton/>
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="h3">{item.name}</Typography>
                 <Avatar src={(null !== item.imgPath) ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath} className={classes.avatar}></Avatar>

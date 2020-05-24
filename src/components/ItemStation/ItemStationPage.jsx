@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { fetchItemsByStation, clearItemsStation, searchItemStation } from '../../actions/ItemStationActions';
 import ItemStationTable from './ItemStationTable';
 import SearchForm from '../Search/SearchForm';
+import BackButton from '../Button/BackButton';
 
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
@@ -37,6 +38,7 @@ function ItemStationPage() {
 
     return (
         <>
+            <BackButton/>
             <Typography variant="h3">
                 {station.name}
             </Typography>
