@@ -37,8 +37,6 @@ function ItemInfo({item}) {
                 <Typography gutterBottom color="textSecondary" variant="body2">
                     {item.description}
                 </Typography>
-                
-
             </div>
             <Divider variant="middle"/>
             <div className={classes.section1}>
@@ -46,8 +44,8 @@ function ItemInfo({item}) {
                     <Typography variant="h5">Selling price</Typography>
                     <Credit value={item.currentSellingPrice} previousValue={item.previousSellingPrice}/>
                 </Box>  
-                {item.dataChartPrice !== undefined ?
-                    <ItemChart dataChartPrice={item.dataChartPrice}/>
+                {item.sellDataPrice !== undefined ?
+                    <ItemChart dataPrice={item.sellDataPrice}/>
                 : null}
             </div>
             <Divider variant="middle"/>
@@ -56,6 +54,9 @@ function ItemInfo({item}) {
                     <Typography variant="h5">Buying price</Typography>
                     <Credit value={item.currentBuyingPrice} previousValue={item.previousBuyingPrice}/>
                 </Box>
+                {item.buyDataPrice !== undefined ?
+                    <ItemChart dataPrice={item.buyDataPrice}/>
+                : null}
             </div>
         </>
     )

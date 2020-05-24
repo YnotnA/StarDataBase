@@ -2,7 +2,7 @@ import React from 'react';
 import Chart from "react-apexcharts";
 import fr from "apexcharts/dist/locales/fr.json"
 
-function ItemChart({dataChartPrice = []}) {
+function ItemChart({dataPrice = []}) {
 
     const optionsChart = {
         chart: {
@@ -26,11 +26,11 @@ function ItemChart({dataChartPrice = []}) {
 
     return (
         <>
-            {dataChartPrice.data.length > 1 ?
+            {dataPrice.data.length > 1 ?
                 <Chart
                     options={optionsChart}
                     height="200"
-                    series={[dataChartPrice]}
+                    series={[dataPrice]}
                     type="area"
                     width="100%"
                 />

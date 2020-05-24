@@ -15,9 +15,9 @@ function ItemStationCharts() {
             let combinedSerie = []
 
             newItems.map(item => {
-                if (item.dataChartPrice !== undefined && item.dataChartPrice.data.length > 0)  {
-                    item.dataChartPrice.data = [...item.dataChartPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
-                    combinedSerie = [...combinedSerie, item.dataChartPrice]
+                if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
+                    item.sellDataPrice.data = [...item.sellDataPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
+                    combinedSerie = [...combinedSerie, item.sellDataPrice]
                 }
                 return item
             })

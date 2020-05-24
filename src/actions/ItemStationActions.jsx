@@ -9,6 +9,8 @@ export const FETCH_ITEM_PRICES_STATION_FAILURE = 'FETCH_ITEM_PRICES_STATION_FAIL
 export const CLEAR_ITEMS_STATION = 'CLEAR_ITEMS_STATION';
 export const SEARCH_ITEM_STATION = 'SEARCH_ITEM_STATION';
 export const SELECT_ITEM_STATION = 'SELECT_ITEM_STATION';
+export const TRANSACTION_TYPE_SELL = 'sell'
+export const TRANSACTION_TYPE_BUY = 'buy'
 
 const fetchItemsStationRequest = () => {
     return {
@@ -45,12 +47,13 @@ const fetchItemPricesStationFailure = error => {
 };
 
 
-const fetchItemPricesStationSuccess = ( stationId, itemId, prices ) => {
+const fetchItemPricesStationSuccess = ( stationId, itemId, prices, transactionType ) => {
     return {
         type: FETCH_ITEM_PRICES_STATION_SUCCESS,
         stationId,
         itemId,
-        prices
+        prices,
+        transactionType
     }
 }
 
@@ -87,12 +90,20 @@ export const selectItemStation = item => {
     }
 }
 
-export const fetchItemPricesByStation = (stationId, itemId) => {
+export const fetchItemSellPricesByStation = (stationId, itemId) => {
+    return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_SELL);
+}
+
+export const fetchItemBuyPricesByStation = (stationId, itemId) => {
+    return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_BUY);
+}
+
+const fetchItemPricesByStation = (stationId, itemId, type = TRANSACTION_TYPE_SELL) => {
     return (dispatch) => {
         dispatch(fetchItemPricesStationRequest());
-        Axios.get(`${process.env.REACT_APP_API_URI}/api/price/sell/item/${itemId}/station/${stationId}`)
+        Axios.get(`${process.env.REACT_APP_API_URI}/api/price/${type}/item/${itemId}/station/${stationId}`)
             .then(response => {
-                dispatch(fetchItemPricesStationSuccess(stationId, itemId, response.data));
+                dispatch(fetchItemPricesStationSuccess(stationId, itemId, response.data, type));
             })
             .catch(error => {
                 dispatch(fetchItemPricesStationFailure(error.message));

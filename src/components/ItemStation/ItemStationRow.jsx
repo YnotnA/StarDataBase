@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
 import Credit from '../Credit/Credit';
 import { LineChart, Line, YAxis } from 'recharts';
-import { fetchItemPricesByStation, selectItemStation } from '../../actions/ItemStationActions';
+import { fetchItemSellPricesByStation, selectItemStation, fetchItemBuyPricesByStation } from '../../actions/ItemStationActions';
 import { Button, makeStyles, Drawer, Box } from '@material-ui/core';
 import ItemInfo from './ItemInfo';
 
@@ -25,7 +25,8 @@ function ItemStationRow({ item }) {
     const [drawer, setDrawer] = useState(false)
     
     useEffect(() => {
-        dispatch(fetchItemPricesByStation(station.id, item.id))    
+        dispatch(fetchItemSellPricesByStation(station.id, item.id))    
+        dispatch(fetchItemBuyPricesByStation(station.id, item.id))    
     }, [])
 
     const toggleDrawer = (open) => (event) => {
@@ -46,8 +47,8 @@ function ItemStationRow({ item }) {
                 <TableCell>{item.type.subCategory.name}</TableCell>
                 <TableCell>{item.type.name}</TableCell>
                 <TableCell>
-                    {item.prices !== undefined && item.prices.length > 1 ?
-                        <LineChart width={100} height={30} data={item.prices}>
+                    {item.sellPrices !== undefined && item.sellPrices.length > 1 ?
+                        <LineChart width={100} height={30} data={item.sellPrices}>
                             <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
                             <YAxis type="number" hide={true} domain={['auto', 'auto']} />
                         </LineChart>
@@ -55,6 +56,14 @@ function ItemStationRow({ item }) {
                 </TableCell>
                 <TableCell align="right">
                     <Credit value={item.currentSellingPrice} previousValue={item.previousSellingPrice}/>
+                </TableCell>
+                <TableCell>
+                    {item.buyPrices !== undefined && item.buyPrices.length > 1 ?
+                        <LineChart width={100} height={30} data={item.buyPrices}>
+                            <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} dot={false} isAnimationActive={false} />
+                            <YAxis type="number" hide={true} domain={['auto', 'auto']} />
+                        </LineChart>
+                    : null}
                 </TableCell>
                 <TableCell align="right">
                     <Credit value={item.currentBuyingPrice} previousValue={item.previousBuyingPrice}/>

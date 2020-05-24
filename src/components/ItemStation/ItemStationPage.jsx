@@ -12,8 +12,9 @@ const headCells = [
     { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
     { id: 'subCategory', numeric: false, disablePadding: false, label: 'Sub Category' },
     { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'priceevo', numeric: false, disablePadding: false, label: 'Sell Price Evo.' },
+    { id: 'sellpriceevo', numeric: false, disablePadding: false, label: 'Sell Price Evo.' },
     { id: 'currentSellingPrice', numeric: true, disablePadding: false, label: 'Sell Price' },
+    { id: 'buypriceevo', numeric: false, disablePadding: false, label: 'Buy Price Evo.' },
     { id: 'currentBuyingPrice', numeric: true, disablePadding: false, label: 'Buy Price' },
     { id: 'action', numeric: false, disablePadding: false, label: '' },
   ];
@@ -22,7 +23,6 @@ function ItemStationPage() {
     let { id } = useParams();
     const dispatch = useDispatch();
     const station = useSelector(state => state.itemsStation.station);
-    const selectItem = useSelector(state => state.itemsStation.selectItem);
     
     useEffect(() => {
         dispatch(fetchItemsByStation(id));

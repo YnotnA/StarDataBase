@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Grid }  from '@material-ui/core';
 import { fetchItems, searchItem } from '../../actions/ItemActions';
 import ItemTable from './ItemTable';
