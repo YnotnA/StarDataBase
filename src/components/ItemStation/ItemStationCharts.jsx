@@ -3,16 +3,24 @@ import { useSelector } from "react-redux";
 import moment from 'moment';
 import Chart from "react-apexcharts";
 import fr from "apexcharts/dist/locales/fr.json"
+import Skeleton from '@material-ui/lab/Skeleton';
 
 function ItemStationCharts() {
     const items = useSelector(state => state.itemsStation.station.items)
     const [series, setSeries] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (items.length > 0) {
+        getSeries()
+    }, [items])
+
+    function getSeries() {
+        setLoading(true)
+        let combinedSerie = []
+
+        if (undefined !== items && items.length > 0) {
             const clone = require('rfdc')()
             const newItems = clone(items)
-            let combinedSerie = []
 
             newItems.map(item => {
                 if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
@@ -21,13 +29,11 @@ function ItemStationCharts() {
                 }
                 return item
             })
+        }
 
-            setSeries(combinedSerie)
-        }
-        return () => {
-            setSeries([])
-        }
-    }, [items])
+        setSeries(combinedSerie)
+        setLoading(false)
+    }
 
     const optionsChart = {
         chart: {
@@ -74,24 +80,30 @@ function ItemStationCharts() {
 
     return (
         <>
-            {series.length > 0 ?
-            <>
-                <Chart
-                    options={optionsChart}
-                    height="300"
-                    series={series}
-                    type="line"
-                    width="100%"
-                />
-                <Chart
-                    options={optionsBrush}
-                    height="100"
-                    series={series}
-                    type="line"
-                    width="100%"
-                />
+            {series.length > 0 && !loading?
+                <>
+                    <Chart
+                        options={optionsChart}
+                        height="300"
+                        series={series}
+                        type="line"
+                        width="100%"
+                    />
+                    <Chart
+                        options={optionsBrush}
+                        height="100"
+                        series={series}
+                        type="line"
+                        width="100%"
+                    />
                 </>
-            : null }
+            : 
+                <>
+                    {items.length > 0 ? 
+                        <Skeleton variant="rect" animation="wave" height={430}/>
+                    : null}
+                </>  
+            }
         </>
     )
 }

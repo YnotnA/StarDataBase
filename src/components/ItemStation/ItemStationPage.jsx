@@ -7,6 +7,7 @@ import { fetchItemsByStation, clearItemsStation, searchItemStation } from '../..
 import ItemStationTable from './ItemStationTable';
 import SearchForm from '../Search/SearchForm';
 import BackButton from '../Button/BackButton';
+import FilterForm from '../Filter/FilterForm';
 
 const headCells = [
     { id: 'image', numeric: false, disablePadding: false, label: '' },
@@ -36,21 +37,31 @@ function ItemStationPage() {
         dispatch(searchItemStation(event.target.value));
     }
 
+    function applyFilter(combinedFilters) {
+        dispatch(fetchItemsByStation(id, combinedFilters));
+    }
+
     return (
         <>
             <BackButton/>
             <Typography variant="h3">
                 {station.name}
             </Typography>
+
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <ItemStationCharts/>
                 </Grid>
             </Grid>
+
             <Grid container spacing={3}>
-                <Grid item>
+                <Grid item md={3} xs={12}>
                     <SearchForm searchHandler={searchHandler}/>
                 </Grid>
+                <FilterForm applyFilter={applyFilter}/>
+            </Grid>
+                    
+            <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <ItemStationTable headCells={headCells}/>
                 </Grid>

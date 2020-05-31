@@ -8,7 +8,6 @@ import EnhancedTableHead from '../Table/EnhancedTableHead';
 import ItemStationRow from './ItemStationRow';
 import { Typography } from '@material-ui/core';
 
-
 function ItemStationTable({ headCells }) {
 
     const search = useSelector(state => state.itemsStation.search);
@@ -18,8 +17,7 @@ function ItemStationTable({ headCells }) {
     const [orderBy, setOrderBy] = useState('name');
 
     useEffect(() => {
-        if (items.length > 0 && search) {
-            
+        if (undefined !== items && items.length > 0 && search) {
             const lowercasedFilter = search.toLowerCase();
             const itemFilters = items.filter(item => {
                 return Object.keys(item).some(key => {
@@ -74,7 +72,7 @@ function ItemStationTable({ headCells }) {
 
     return (
         <>
-            {filteredItems.length > 0 ? 
+            {undefined !== filteredItems && filteredItems.length > 0 ? 
                 <TableContainer component={Paper} variant="outlined">
                     <Table size="small">
                         <EnhancedTableHead
@@ -90,7 +88,7 @@ function ItemStationTable({ headCells }) {
                             .map(item =>
                                 <ItemStationRow
                                     key={item.id}
-                                    item={item}
+                                    itemId={item.id}
                                 />
                             ) : null} 
                         </TableBody>  

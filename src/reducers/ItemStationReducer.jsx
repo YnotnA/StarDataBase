@@ -8,7 +8,9 @@ import {
     SELECT_ITEM_STATION,
     SEARCH_ITEM_STATION,
     FETCH_ITEM_PRICES_STATION_FAILURE,
+    COMBINE_SERIES_CHART,
 } from "../actions/ItemStationActions";
+import moment from 'moment';
 
 const ItemStationReducer = (
         state = {
@@ -89,6 +91,26 @@ const ItemStationReducer = (
             return {
                 ...state,
                 selectItem: action.payload
+            }
+        case COMBINE_SERIES_CHART:
+            let combinedSerie = []
+            let items = state.station.items
+
+            if (undefined !== items && items.length > 0) {
+                const clone = require('rfdc')()
+                const newItems = clone(items)
+
+                newItems.map(item => {
+                    if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
+                        item.sellDataPrice.data = [...item.sellDataPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
+                        combinedSerie = [...combinedSerie, item.sellDataPrice]
+                    }
+                    return item
+                })
+            }
+            return {
+                ...state,
+                seriesChart: combinedSerie
             }
         default:
             return state;

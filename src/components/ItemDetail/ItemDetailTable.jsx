@@ -20,7 +20,6 @@ function ItemDetailTable({ headCells }) {
 
     useEffect(() => {
         if (stations.length > 0 && search) {
-            
             const lowercasedFilter = search.toLowerCase();
             const stationFilters = stations.filter(item => {
                 return Object.keys(item).some(key => {
@@ -75,7 +74,7 @@ function ItemDetailTable({ headCells }) {
 
     return (
         <>
-            {filteredStations.length > 0 ? 
+            {undefined !== filteredStations && filteredStations.length > 0 ? 
                 <TableContainer component={Paper} variant="outlined">
                     <Table size="small">
                         <EnhancedTableHead

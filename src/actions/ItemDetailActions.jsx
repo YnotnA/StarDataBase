@@ -82,6 +82,11 @@ export const fetchItemDetail = itemId => {
         Axios.get(`${process.env.REACT_APP_API_URI}/api/item/${itemId}`)
             .then(response => {
                 dispatch(fetchItemDetailSuccess(response.data));
+                response.data.stations.map(station => {
+                    dispatch(fetchItemSellPricesByStation(station.id, response.data.id))
+                    dispatch(fetchItemBuyPricesByStation(station.id, response.data.id))
+                    return station
+                })
             })
             .catch(error => {
                 dispatch(fetchItemDetailFailure(error.message));
@@ -89,11 +94,11 @@ export const fetchItemDetail = itemId => {
     }
 };
 
-export const fetchItemSellPricesByStation = (stationId, itemId) => {
+const fetchItemSellPricesByStation = (stationId, itemId) => {
     return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_SELL);
 }
 
-export const fetchItemBuyPricesByStation = (stationId, itemId) => {
+const fetchItemBuyPricesByStation = (stationId, itemId) => {
     return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_BUY);
 }
 
