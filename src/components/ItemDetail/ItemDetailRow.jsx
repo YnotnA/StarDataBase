@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Credit from '../Credit/Credit';
 import { LineChart, Line, YAxis } from 'recharts';
-import { fetchItemSellPricesByStation, selectStationDetail, fetchItemBuyPricesByStation } from '../../actions/ItemDetailActions';
+import { selectStationDetail } from '../../actions/ItemDetailActions';
 import { Button, makeStyles, Drawer, Box, Link, ButtonGroup } from '@material-ui/core';
 import StationInfo from './StationInfo';
 import { Link as RouterLink } from 'react-router-dom';
@@ -26,13 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function ItemDetailRow({ station }) {
     const classes = useStyles()
     const dispatch = useDispatch();
-    const item = useSelector(state => state.itemDetail.item);
     const [drawer, setDrawer] = useState(false)
-    
-    useEffect(() => {
-        dispatch(fetchItemSellPricesByStation(station.id, item.id))    
-        dispatch(fetchItemBuyPricesByStation(station.id, item.id))    
-    }, [])
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

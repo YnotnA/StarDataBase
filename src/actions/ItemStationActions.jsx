@@ -6,6 +6,7 @@ export const FETCH_ITEMS_STATION_FAILURE = 'FETCH_ITEMS_STATION_FAILURE';
 export const FETCH_ITEM_PRICES_STATION_REQUEST = 'FETCH_ITEM_PRICES_STATION_REQUEST';
 export const FETCH_ITEM_PRICES_STATION_SUCCESS = 'FETCH_ITEM_PRICES_STATION_SUCCESS';
 export const FETCH_ITEM_PRICES_STATION_FAILURE = 'FETCH_ITEM_PRICES_STATION_FAILURE';
+export const COMBINE_SERIES_CHART = 'COMBINE_SERIES_CHART'
 export const CLEAR_ITEMS_STATION = 'CLEAR_ITEMS_STATION';
 export const SEARCH_ITEM_STATION = 'SEARCH_ITEM_STATION';
 export const SELECT_ITEM_STATION = 'SELECT_ITEM_STATION';
@@ -70,19 +71,6 @@ export const searchItemStation = search => {
     }
 };
 
-export const fetchItemsByStation = (stationId) => {
-    return (dispatch) => {
-        dispatch(fetchItemsStationRequest());
-        Axios.get(`${process.env.REACT_APP_API_URI}/api/station/${stationId}`)
-            .then(response => {
-                dispatch(fetchItemsStationSuccess(response.data));
-            })
-            .catch(error => {
-                dispatch(fetchItemsStationFailure(error.message));
-            })
-    }
-};
-
 export const selectItemStation = item => {
     return {
         type: SELECT_ITEM_STATION,
@@ -90,11 +78,35 @@ export const selectItemStation = item => {
     }
 }
 
-export const fetchItemSellPricesByStation = (stationId, itemId) => {
+export const combineSeriesChart = () => {
+    return {
+        type: COMBINE_SERIES_CHART
+    }
+}
+
+export const fetchItemsByStation = (stationId, filters = {}) => {
+    return (dispatch) => {
+        dispatch(fetchItemsStationRequest());
+        Axios.get(`${process.env.REACT_APP_API_URI}/api/station/${stationId}`, {params: filters})
+            .then(response => {
+                dispatch(fetchItemsStationSuccess(response.data));
+                response.data.items.map(item => {
+                    dispatch(fetchItemSellPricesByStation(stationId, item.id))
+                    dispatch(fetchItemBuyPricesByStation(stationId, item.id))
+                    return item
+                })
+            })
+            .catch(error => {
+                dispatch(fetchItemsStationFailure(error.message));
+            })
+    }
+};
+
+const fetchItemSellPricesByStation = (stationId, itemId) => {
     return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_SELL);
 }
 
-export const fetchItemBuyPricesByStation = (stationId, itemId) => {
+const fetchItemBuyPricesByStation = (stationId, itemId) => {
     return fetchItemPricesByStation(stationId, itemId, TRANSACTION_TYPE_BUY);
 }
 
@@ -104,6 +116,9 @@ const fetchItemPricesByStation = (stationId, itemId, type = TRANSACTION_TYPE_SEL
         Axios.get(`${process.env.REACT_APP_API_URI}/api/price/${type}/item/${itemId}/station/${stationId}`)
             .then(response => {
                 dispatch(fetchItemPricesStationSuccess(stationId, itemId, response.data, type));
+                if (TRANSACTION_TYPE_SELL === type) {
+                    dispatch(combineSeriesChart())
+                }
             })
             .catch(error => {
                 dispatch(fetchItemPricesStationFailure(error.message));

@@ -40,10 +40,10 @@ export const selectItem = item => {
     }
 }
 
-export const fetchItems = () => {
+export const fetchItems = (filters = {}) => {
     return (dispatch) => {
         dispatch(fetchItemsRequest());
-        Axios.get(`${process.env.REACT_APP_API_URI}/api/item`)
+        Axios.get(`${process.env.REACT_APP_API_URI}/api/item`, {params: filters})
             .then(response => {
                 dispatch(fetchItemsSuccess(response.data));
             })
