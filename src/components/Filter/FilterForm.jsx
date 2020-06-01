@@ -10,6 +10,7 @@ function FilterForm({ applyFilter }) {
     const [selectedCategories, setSelectedCategories] = useState({category: []})
     const [selectedSubCategories, setSelectedSubCategories] = useState({subCategory: []})
     const [selectedTypes, setSelectedTypes] = useState({type: []})
+    const [firstLoad, setFirstLoad] = useState(true)
 
     useEffect(() => {
         Axios.get(`${process.env.REACT_APP_API_URI}/api/category`)
@@ -20,6 +21,13 @@ function FilterForm({ applyFilter }) {
                 console.log(error.message);
             });
     }, [])
+
+    useEffect(() => {
+        if (!firstLoad) {
+            combineFilter()
+        }
+        setFirstLoad(false)
+    }, [selectedCategories, selectedSubCategories, selectedTypes])
 
     const setData = (data) => {
         let categoriesList = [];
@@ -46,17 +54,14 @@ function FilterForm({ applyFilter }) {
 
     const handleChangeCategory = (event, newValue) => {
         setSelectedCategories({category: extractValues(newValue)});
-        combineFilter();
     }
 
     const handleChangeSubCategory = (event, newValue) => {
         setSelectedSubCategories({subCategory: extractValues(newValue)});
-        combineFilter();
     }
 
     const handleChangeType = (event, newValue) => {
         setSelectedTypes({type: extractValues(newValue)});
-        combineFilter();
     }
 
     const extractValues = (rawValues) => {
@@ -84,12 +89,12 @@ function FilterForm({ applyFilter }) {
                     onChange={handleChangeCategory}
                     getOptionSelected={(option, value) => option.value === value.value}
                     renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="standard"
-                        label="Category"
-                        placeholder="Categories"
-                    />
+                        <TextField
+                            {...params}
+                            variant="standard"
+                            label="Category"
+                            placeholder="Categories"
+                        />
                     )}
                 />
             </Grid>
@@ -102,12 +107,12 @@ function FilterForm({ applyFilter }) {
                     onChange={handleChangeSubCategory}
                     getOptionSelected={(option, value) => option.value === value.value}
                     renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="standard"
-                        label="Sub category"
-                        placeholder="Sub categories"
-                    />
+                        <TextField
+                            {...params}
+                            variant="standard"
+                            label="Sub category"
+                            placeholder="Sub categories"
+                        />
                     )}
                 />
             </Grid>
