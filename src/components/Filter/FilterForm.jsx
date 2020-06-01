@@ -19,8 +19,7 @@ function FilterForm({ applyFilter }) {
             .catch(error => {
                 console.log(error.message);
             });
-        combineFilter();
-    }, [selectedCategories, selectedSubCategories, selectedTypes])
+    }, [])
 
     const setData = (data) => {
         let categoriesList = [];
@@ -47,14 +46,17 @@ function FilterForm({ applyFilter }) {
 
     const handleChangeCategory = (event, newValue) => {
         setSelectedCategories({category: extractValues(newValue)});
+        combineFilter();
     }
 
     const handleChangeSubCategory = (event, newValue) => {
         setSelectedSubCategories({subCategory: extractValues(newValue)});
+        combineFilter();
     }
 
     const handleChangeType = (event, newValue) => {
         setSelectedTypes({type: extractValues(newValue)});
+        combineFilter();
     }
 
     const extractValues = (rawValues) => {

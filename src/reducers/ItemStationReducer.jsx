@@ -12,13 +12,17 @@ import {
 } from "../actions/ItemStationActions";
 import moment from 'moment';
 
+const clone = require('rfdc')()
+
 const ItemStationReducer = (
         state = {
-            station: {
-                items:[]
-            },
-            loading: false,
-            search: null
+                station: {
+                    items:[]
+                },
+                loading: false,
+                search: null,
+                seriesChart: [],
+                error: null,
             }
         , action
     ) => {
@@ -30,9 +34,10 @@ const ItemStationReducer = (
             };
         case FETCH_ITEMS_STATION_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 station: action.payload,
-                error: ''
+                error: null
             };
         case FETCH_ITEMS_STATION_FAILURE:
             return {
@@ -46,7 +51,6 @@ const ItemStationReducer = (
                 loading: true
             };
         case FETCH_ITEM_PRICES_STATION_SUCCESS:
-            const clone = require('rfdc')()
             const newStation = clone(state.station)
             let item = newStation.items.find(item => item.id === action.itemId);
             
@@ -65,9 +69,9 @@ const ItemStationReducer = (
             }
 
             return {
+                ...state,
                 loading: false,
                 station: newStation,
-                error: ''
             };
         case FETCH_ITEM_PRICES_STATION_FAILURE:
             return {
@@ -80,7 +84,8 @@ const ItemStationReducer = (
                 loading: false,
                 station: {
                     items: []
-                }
+                },
+                seriesChart: [],
             }
         case SEARCH_ITEM_STATION:
             return {
@@ -94,20 +99,16 @@ const ItemStationReducer = (
             }
         case COMBINE_SERIES_CHART:
             let combinedSerie = []
-            let items = state.station.items
+            const items = state.station.items
+            const newItems = clone(items)
 
-            if (undefined !== items && items.length > 0) {
-                const clone = require('rfdc')()
-                const newItems = clone(items)
-
-                newItems.map(item => {
-                    if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
-                        item.sellDataPrice.data = [...item.sellDataPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
-                        combinedSerie = [...combinedSerie, item.sellDataPrice]
-                    }
-                    return item
-                })
-            }
+            newItems.map(item => {
+                if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
+                    item.sellDataPrice.data = [...item.sellDataPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
+                    combinedSerie = [...combinedSerie, item.sellDataPrice]
+                }
+                return item
+            })
             return {
                 ...state,
                 seriesChart: combinedSerie

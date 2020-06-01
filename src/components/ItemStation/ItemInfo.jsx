@@ -2,13 +2,13 @@ import React from 'react';
 import { 
     Typography,
     makeStyles,
-    Avatar,
     Box,
     Divider,
 }  from '@material-ui/core';
 import ItemBreadcrumbs from '../Breadcrumbs/ItemBreadcrumbs';
 import Credit from '../Credit/Credit';
 import ItemChart from './ItemChart';
+import ItemAvatar from '../Avatar/ItemAvatar';
 
 const useStyles = makeStyles((theme) => ({
     section1: {
@@ -28,7 +28,7 @@ function ItemInfo({item}) {
         <>
             <div className={classes.section1}>
                 <Box display="flex" justifyContent="center">
-                    <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath} className={classes.avatar}></Avatar>
+                    <ItemAvatar item={item} className={classes.avatar}/>
                 </Box>
                 <Typography variant="h4">
                     {item.name}

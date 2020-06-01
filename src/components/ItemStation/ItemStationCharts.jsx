@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from "react-redux";
 import moment from 'moment';
 import Chart from "react-apexcharts";
@@ -7,33 +7,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 function ItemStationCharts() {
     const items = useSelector(state => state.itemsStation.station.items)
-    const [series, setSeries] = useState([])
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        getSeries()
-    }, [items])
-
-    function getSeries() {
-        setLoading(true)
-        let combinedSerie = []
-
-        if (undefined !== items && items.length > 0) {
-            const clone = require('rfdc')()
-            const newItems = clone(items)
-
-            newItems.map(item => {
-                if (item.sellDataPrice !== undefined && item.sellDataPrice.data.length > 0)  {
-                    item.sellDataPrice.data = [...item.sellDataPrice.data, [moment().valueOf(), parseFloat(item.currentSellingPrice)]]
-                    combinedSerie = [...combinedSerie, item.sellDataPrice]
-                }
-                return item
-            })
-        }
-
-        setSeries(combinedSerie)
-        setLoading(false)
-    }
+    const series = useSelector(state => state.itemsStation.seriesChart)
 
     const optionsChart = {
         chart: {
@@ -80,7 +54,7 @@ function ItemStationCharts() {
 
     return (
         <>
-            {series.length > 0 && !loading?
+            {series.length > 0 ?
                 <>
                     <Chart
                         options={optionsChart}

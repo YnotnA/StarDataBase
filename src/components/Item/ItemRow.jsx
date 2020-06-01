@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Avatar from '@material-ui/core/Avatar';
 import { useDispatch } from 'react-redux';
 import { selectItem } from '../../actions/ItemActions';
 import { Button, makeStyles, Drawer, Box, ButtonGroup } from '@material-ui/core';
 import ItemInfo from './ItemInfo';
 import { Link as RouterLink } from 'react-router-dom';
+import ItemAvatar from '../Avatar/ItemAvatar';
 
 const useStyles = makeStyles((theme) =>({
     drawer: {
@@ -39,7 +39,7 @@ function ItemRow({ item }) {
         <>
             <TableRow hover>
                 <TableCell>
-                    <Avatar src={(null !== item.imgPath) ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
+                    <ItemAvatar item={item}/>
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.type.subCategory.category.name}</TableCell>

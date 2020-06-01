@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Avatar from '@material-ui/core/Avatar';
 import Credit from '../Credit/Credit';
 import { LineChart, Line, YAxis } from 'recharts';
 import { selectItemStation } from '../../actions/ItemStationActions';
 import { Button, makeStyles, Drawer, Box, Link } from '@material-ui/core';
 import ItemInfo from './ItemInfo';
 import { Link as RouterLink } from 'react-router-dom';
+import ItemAvatar from '../Avatar/ItemAvatar';
 
 const useStyles = makeStyles({
     drawer: {
@@ -39,7 +39,7 @@ function ItemStationRow({ itemId }) {
                 <>
                     <TableRow hover>
                         <TableCell>
-                            <Avatar src={(null !== item.imgPath)  ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath}></Avatar>
+                            <ItemAvatar item={item}/>
                         </TableCell>
                         <TableCell>
                             <Link component={RouterLink} to={`/StarDataBase/item/${item.id}`} color="inherit">{item.name}</Link>      

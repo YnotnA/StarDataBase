@@ -7,6 +7,7 @@ import { clearItemDetail, fetchItemDetail, searchItemDetail } from '../../action
 import ItemDetailTable from './ItemDetailTable';
 import ItemBreadcrumbs from '../Breadcrumbs/ItemBreadcrumbs';
 import BackButton from '../Button/BackButton';
+import ItemAvatar from '../Avatar/ItemAvatar';
 
 
 const headCells = [
@@ -50,7 +51,7 @@ function ItemDetailPage() {
             <BackButton/>
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="h3">{item.name}</Typography>
-                <Avatar src={(null !== item.imgPath) ? `${process.env.REACT_APP_IMG_URI}${item.imgPath}` : item.imgPath} className={classes.avatar}></Avatar>
+                <ItemAvatar item={item} className={classes.avatar}/>
             </Box>
             <ItemBreadcrumbs item={item}/>
             <Typography variant="body1" className={classes.section1}>

@@ -95,7 +95,6 @@ export const fetchItemsByStation = (stationId, filters = {}) => {
                     dispatch(fetchItemBuyPricesByStation(stationId, item.id))
                     return item
                 })
-                dispatch(combineSeriesChart())
             })
             .catch(error => {
                 dispatch(fetchItemsStationFailure(error.message));
@@ -117,6 +116,9 @@ const fetchItemPricesByStation = (stationId, itemId, type = TRANSACTION_TYPE_SEL
         Axios.get(`${process.env.REACT_APP_API_URI}/api/price/${type}/item/${itemId}/station/${stationId}`)
             .then(response => {
                 dispatch(fetchItemPricesStationSuccess(stationId, itemId, response.data, type));
+                if (TRANSACTION_TYPE_SELL === type) {
+                    dispatch(combineSeriesChart())
+                }
             })
             .catch(error => {
                 dispatch(fetchItemPricesStationFailure(error.message));
