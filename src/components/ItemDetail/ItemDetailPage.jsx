@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Typography, makeStyles, Avatar, Box }  from '@material-ui/core';
+import { Grid, Typography, makeStyles, Box }  from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import SearchForm from '../Search/SearchForm';
 import { clearItemDetail, fetchItemDetail, searchItemDetail } from '../../actions/ItemDetailActions';
