@@ -3,6 +3,7 @@ version: '3.7'
 services:
     app:
         container_name: stardatabase_app
+        stdin_open: true
         build:
             context: .
             dockerfile: Dockerfile
@@ -12,4 +13,5 @@ services:
         ports:
             - 3001:3000
         environment:
+            - NODE_ENV=development
             - CHOKIDAR_USEPOLLING=true
